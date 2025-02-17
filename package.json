@@ -1,0 +1,34 @@
+{
+  "name": "todo-foryou-back",
+  "version": "1.0.0",
+  "description": "Aplicação web para uma lista de afazeres ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "migrate:redo": "node-pg-migrate redo",
+    "migrate:create": "node-pg-migrate create",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swagger": "node swagger.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "todo-foryou-back"
+  },
+  "author": "JD Pinto",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "dotenv-safe": "^9.1.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.9",
+    "pg": "^8.13.3",
+    "swagger-ui-express": "^5.0.1",
+    "node-pg-migrate": "^7.9.1",
+    "swagger-autogen": "^2.23.7"
+  }
+}
