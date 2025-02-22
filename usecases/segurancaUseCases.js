@@ -27,7 +27,6 @@ const autenticaUsuarioDB = async (body) => {
             user: new Usuario(
                 usuario.codigo,
                 usuario.email,
-                usuario.nome,
                 "."
             )
         };

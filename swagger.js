@@ -24,14 +24,12 @@ const doc = {
                 msg: "Login bem-sucedido"
             },
             //Usuário
-            usuarioCadastro: {
-                $nome: "João da Silva", 
+            usuarioCadastro: { 
                 $email: "joaodsilva@gmail.com", 
                 $senha: "SenhaSegura123"
             },
             usuarioAtualizacao: {
                 $codigo: "João da Silva", 
-                nome: "João da Silva", 
                 email: "joaodsilva@gmail.com", 
                 $senha: "SenhaSegura123", 
                 novaSenha: "SenhaSegura456"
@@ -40,8 +38,7 @@ const doc = {
                 status: 200,
                 msg: "Usuário cadastrado", 
                 usuario: {
-                    codigo: 1, 
-                    nome: "João da Silva", 
+                    codigo: 1,
                     email: "joaodsilva@gmail.com"
                 }
             },

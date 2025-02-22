@@ -3,10 +3,9 @@ const Usuario = require('../entities/usuario');
 
 const addUsuarioBD = async (body) => {
     try {
-        const { nome, email, senha } = body;
-        if (!nome || !email || !senha) {
-            let errMsg = `${!nome ? "Nome": ''}`;
-            errMsg += `${!email ? (errMsg ? ', ' : '') + "E-mail": ''}`;
+        const { email, senha } = body;
+        if (!email || !senha) {
+            let errMsg = `${!email ? (errMsg ? ', ' : '') + "E-mail": ''}`;
             errMsg += `${!senha ? (errMsg ? ', ' : '') + "Senha": ''}`;
             return { msg: "ERRO: Alguns dados estão faltando: " + errMsg, status: 400 };
         }
@@ -17,13 +16,13 @@ const addUsuarioBD = async (body) => {
                 msg: "Email já cadastrado no sistema." 
             };
         }
-        const results = await pool.query(`INSERT INTO usuarios (nome, email, senha) 
-            VALUES ('${nome}', '${email}', '${senha}') returning codigo, nome, email`);
+        const results = await pool.query(`INSERT INTO usuarios (email, senha) 
+            VALUES ('${email}', '${senha}') returning codigo, email`);
         const usuario = results.rows[0];
         return { 
             status: 200,
             msg: "Usuário cadastrado", 
-            usuario: new Usuario(usuario.codigo, usuario.email, usuario.nome)
+            usuario: new Usuario(usuario.codigo, usuario.email)
         };
     } catch (err) {
         console.log("ERRO:", err);
@@ -44,7 +43,7 @@ const getUsuarioPorEmailBD = async (email) => {
             return {
                 status: 200, 
                 msg: "Usuário encontrado com sucesso",
-                usuario: new Usuario(usuario.codigo, usuario.email, usuario.nome)
+                usuario: new Usuario(usuario.codigo, usuario.email)
             }
         }
     } catch (err) {
@@ -66,7 +65,7 @@ const getUsuarioPorCodigoBD = async (codigo) => {
             return {
                 status: 200, 
                 msg: "Usuário encontrado com sucesso",
-                usuario: new Usuario(usuario.codigo, usuario.email, usuario.nome)
+                usuario: new Usuario(usuario.codigo, usuario.email)
             }
         }
     } catch (err) {
@@ -77,7 +76,7 @@ const getUsuarioPorCodigoBD = async (codigo) => {
 
 const updateUsuarioBD = async (body) => {
     try {
-        const { codigo, nome, email, senha, novaSenha } = body;
+        const { codigo, email, senha, novaSenha } = body;
         if(!codigo){
             return {
                 status: 400, 
@@ -91,9 +90,6 @@ const updateUsuarioBD = async (body) => {
             }
         }
         let updateFields = null;
-        if(nome){
-            updateFields = `nome = '${nome}'`;
-        }
         if(novaSenha){
             if(updateFields) {
                 updateFields += ", ";
@@ -115,7 +111,7 @@ const updateUsuarioBD = async (body) => {
             retVal.msg = "Usuário atualizado com sucesso";
             return retVal;
         }
-        const query = `UPDATE usuarios set ` + updateFields + ` where codigo = ${codigo} and senha = '${senha}' returning codigo, nome, email`;
+        const query = `UPDATE usuarios set ` + updateFields + ` where codigo = ${codigo} and senha = '${senha}' returning codigo, email`;
         const results = await pool.query(query);
         if (results.rowCount == 0) {
             return {
@@ -127,7 +123,7 @@ const updateUsuarioBD = async (body) => {
         return {
             status: 200, 
             msg: "Usuário atualizado com sucesso",
-            usuario: new Usuario(usuario.codigo, usuario.email, usuario.nome)
+            usuario: new Usuario(usuario.codigo, usuario.email)
         }
     } catch (err) {
         console.log("ERRO:", err);
